@@ -1,3 +1,5 @@
+const BrunoQuery = require('../../bruno-query');
+
 class BrunoResponse {
   constructor(res) {
     this.res = res;
@@ -5,6 +7,7 @@ class BrunoResponse {
     this.statusText = res ? res.statusText : null;
     this.headers = res ? res.headers : null;
     this.body = res ? res.data : null;
+    this.get = (path, filter) => BrunoQuery.get(this.body, path, filter);
   }
 
   getStatus() {

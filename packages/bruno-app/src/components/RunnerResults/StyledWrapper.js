@@ -19,6 +19,10 @@ const Wrapper = styled.div`
     color: ${(props) => props.theme.colors.text.green};
   }
 
+  .test-pending {
+    color: ${(props) => props.theme.colors.text.muted};
+  }
+
   .test-failure {
     color: ${(props) => props.theme.colors.text.danger};
 

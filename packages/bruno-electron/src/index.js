@@ -20,10 +20,12 @@ const contentSecurityPolicy = [
   "font-src 'self' https://fonts.gstatic.com",
   "form-action 'none'",
   "img-src 'self' blob: data:",
-  "style-src 'self' https://fonts.googleapis.com"
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com"
 ];
+console.log('ISDEV', isDev)
+console.log(contentSecurityPolicy.join(';\n') + ';')
 
-setContentSecurityPolicy(contentSecurityPolicy.join(';'));
+setContentSecurityPolicy(contentSecurityPolicy.join(';') + ';');
 
 const menu = Menu.buildFromTemplate(menuTemplate);
 Menu.setApplicationMenu(menu);

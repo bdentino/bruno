@@ -5,7 +5,7 @@ import { get, each, cloneDeep } from 'lodash';
 import { runCollectionFolder } from 'providers/ReduxStore/slices/collections/actions';
 import { resetCollectionRunner } from 'providers/ReduxStore/slices/collections';
 import { findItemInCollection, getTotalRequestCountInCollection } from 'utils/collections';
-import { IconRefresh, IconCircleCheck, IconCircleX, IconCheck, IconX, IconRun } from '@tabler/icons';
+import { IconRefresh, IconCircleCheck, IconCircleDashed, IconCircleX, IconCheck, IconX, IconRun } from '@tabler/icons';
 import slash from 'utils/common/slash';
 import ResponsePane from './ResponsePane';
 import StyledWrapper from './StyledWrapper';
@@ -33,7 +33,7 @@ export default function RunnerResults({ collection }) {
   const collectionCopy = cloneDeep(collection);
   const items = cloneDeep(get(collection, 'runnerResult.items', []));
   const runnerInfo = get(collection, 'runnerResult.info', {});
-  each(items, (item) => {
+  each(items, (item, i) => {
     const info = findItemInCollection(collectionCopy, item.uid);
 
     item.name = info.name;
@@ -47,7 +47,7 @@ export default function RunnerResults({ collection }) {
         const failed = item.testResults.filter((result) => result.status === 'fail');
 
         item.testStatus = failed.length ? 'fail' : 'pass';
-      } else {
+      } else if (item.status === 'completed') {
         item.testStatus = 'pass';
       }
 
@@ -55,7 +55,7 @@ export default function RunnerResults({ collection }) {
         const failed = item.assertionResults.filter((result) => result.status === 'fail');
 
         item.assertionStatus = failed.length ? 'fail' : 'pass';
-      } else {
+      } else if (item.status === 'completed') {
         item.assertionStatus = 'pass';
       }
     }
@@ -119,14 +119,16 @@ export default function RunnerResults({ collection }) {
           <div className="py-2 font-medium test-summary">
             Total Requests: {items.length}, Passed: {passedRequests.length}, Failed: {failedRequests.length}
           </div>
-          {items.map((item) => {
+          {items.map((item, i) => {
             return (
-              <div key={item.uid}>
+              <div key={item.uid + i}>
                 <div className="item-path mt-2">
                   <div className="flex items-center">
                     <span>
                       {item.status !== 'error' && item.testStatus === 'pass' ? (
                         <IconCircleCheck className="test-success" size={20} strokeWidth={1.5} />
+                        ) : item.status === 'queued' || item.status === 'running' ? (
+                        <IconCircleDashed className="test-pending" size={20} strokeWidth={1.5} />
                       ) : (
                         <IconCircleX className="test-failure" size={20} strokeWidth={1.5} />
                       )}
