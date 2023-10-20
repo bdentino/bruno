@@ -33,7 +33,7 @@ export default function RunnerResults({ collection }) {
   const collectionCopy = cloneDeep(collection);
   const items = cloneDeep(get(collection, 'runnerResult.items', []));
   const runnerInfo = get(collection, 'runnerResult.info', {});
-  each(items, (item, i) => {
+  each(items, (item) => {
     const info = findItemInCollection(collectionCopy, item.uid);
 
     item.name = info.name;
@@ -119,15 +119,15 @@ export default function RunnerResults({ collection }) {
           <div className="py-2 font-medium test-summary">
             Total Requests: {items.length}, Passed: {passedRequests.length}, Failed: {failedRequests.length}
           </div>
-          {items.map((item, i) => {
+          {items.map((item) => {
             return (
-              <div key={item.uid + i}>
+              <div key={item.uid}>
                 <div className="item-path mt-2">
                   <div className="flex items-center">
                     <span>
                       {item.status !== 'error' && item.testStatus === 'pass' ? (
                         <IconCircleCheck className="test-success" size={20} strokeWidth={1.5} />
-                        ) : item.status === 'queued' || item.status === 'running' ? (
+                      ) : item.status === 'queued' || item.status === 'running' ? (
                         <IconCircleDashed className="test-pending" size={20} strokeWidth={1.5} />
                       ) : (
                         <IconCircleX className="test-failure" size={20} strokeWidth={1.5} />
