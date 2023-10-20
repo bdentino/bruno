@@ -22,8 +22,6 @@ const contentSecurityPolicy = [
   "img-src 'self' blob: data:",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com"
 ];
-console.log('ISDEV', isDev)
-console.log(contentSecurityPolicy.join(';\n') + ';')
 
 setContentSecurityPolicy(contentSecurityPolicy.join(';') + ';');
 
