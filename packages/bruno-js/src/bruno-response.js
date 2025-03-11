@@ -1,4 +1,4 @@
-const BrunoQuery = require('../../bruno-query');
+const BrunoQuery = require('@usebruno/query');
 
 class BrunoResponse {
   constructor(res) {
